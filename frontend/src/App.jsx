@@ -8,6 +8,7 @@ import QRCodePreview from './components/QRCodePreview.jsx';
 import ExportControls from './components/ExportControls.jsx';
 import { useDebouncedValue } from './hooks/useDebouncedValue.js';
 import { useQRCode } from './hooks/useQRCode.js';
+import { useTheme } from './hooks/useTheme.js';
 import { buildPayload, getAllInitialValues, getContentType, getInitialValues } from './lib/contentTypes.js';
 import { getColorWarnings } from './lib/color.js';
 import { DEFAULT_STYLE } from './lib/qrStyle.js';
@@ -19,6 +20,9 @@ export default function App() {
   const [values, setValues] = useState(getAllInitialValues);
   const [touched, setTouched] = useState({});
   const [style, setStyle] = useState(DEFAULT_STYLE);
+  // Mudar esta chave recria o painel de aparência, limpando estados internos (ex.: erro do logótipo).
+  const [customizationKey, setCustomizationKey] = useState(0);
+  const { theme, toggleTheme } = useTheme();
 
   const currentValues = values[typeId];
   const payload = useMemo(() => buildPayload(typeId, currentValues), [typeId, currentValues]);
@@ -42,15 +46,20 @@ export default function App() {
     setTouched((prev) => ({ ...prev, [typeId]: {} }));
   }
 
+  function handleResetStyle() {
+    setStyle(DEFAULT_STYLE);
+    setCustomizationKey((key) => key + 1);
+  }
+
   function handleStyleChange(changes) {
     setStyle((prev) => ({ ...prev, ...changes }));
   }
 
   return (
-    <div className="app">
-      <Header />
+    <>
+      <Header theme={theme} onToggleTheme={toggleTheme} />
 
-      <main className="layout">
+      <main className="app layout">
         <div className="layout__config">
           <Panel
             title="1. Conteúdo"
@@ -75,12 +84,12 @@ export default function App() {
           <Panel
             title="2. Aparência"
             action={
-              <button type="button" className="button button--ghost" onClick={() => setStyle(DEFAULT_STYLE)}>
+              <button type="button" className="button button--ghost" onClick={handleResetStyle}>
                 <RotateCcw size={16} aria-hidden="true" /> Repor predefinições
               </button>
             }
           >
-            <CustomizationPanel style={style} onChange={handleStyleChange} warnings={colorWarnings} />
+            <CustomizationPanel key={customizationKey} style={style} onChange={handleStyleChange} warnings={colorWarnings} />
           </Panel>
         </div>
 
@@ -96,6 +105,6 @@ export default function App() {
           </Panel>
         </aside>
       </main>
-    </div>
+    </>
   );
 }

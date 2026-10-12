@@ -9,6 +9,7 @@ src/
   hooks/
     useQRCode.js           Instância única de qr-code-styling → SVG final
     useDebouncedValue.js   Evita regenerar a cada tecla
+    useTheme.js            Modo claro/escuro (sistema + escolha guardada)
   lib/                     Lógica pura, testável sem React
     contentTypes.js        Campos, validação e payload de cada tipo
     payloads.js            Formatos WIFI:, mailto:, tel:, SMSTO:, vCard

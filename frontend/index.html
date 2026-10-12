@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Cria, personaliza e descarrega QR Codes gratuitamente." />
     <title>QR Studio</title>
+    <script>
+      // Aplica o tema antes do primeiro desenho para evitar um "flash" (ver hooks/useTheme.js).
+      try {
+        const stored = localStorage.getItem('qr-studio-theme');
+        const dark = stored ? stored === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      } catch {
+        document.documentElement.dataset.theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -14,6 +14,9 @@
   --warning: #8a5300;
   --warning-soft: #fff4e0;
   --info-soft: #eef1f5;
+  --on-accent: #ffffff;
+  --stage: #f0efeb;
+  --stage-check: #e7e5df;
   --radius: 10px;
   --radius-sm: 6px;
   --focus: 0 0 0 3px rgba(15, 76, 82, 0.35);
@@ -24,13 +27,39 @@
   --space-5: 24px;
   --space-6: 32px;
 
-  color-scheme: light;
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 1.5;
   color: var(--text);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+/* Modo escuro: só os tokens mudam; os componentes usam sempre as variáveis. */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #121417;
+  --surface: #1b1e22;
+  --border: #2d3238;
+  --border-strong: #454c54;
+  --text: #e8e9eb;
+  --text-muted: #a2a7ae;
+  --accent: #5fb8b0;
+  --accent-hover: #7fcac3;
+  --accent-soft: #1d3a3b;
+  --danger: #ff8a7f;
+  --danger-soft: #3a1f1d;
+  --warning: #f2b766;
+  --warning-soft: #362a17;
+  --info-soft: #23272d;
+  --on-accent: #0d2224;
+  --stage: #15181b;
+  --stage-check: #1d2126;
+  --focus: 0 0 0 3px rgba(95, 184, 176, 0.45);
 }
 
 *,
@@ -111,28 +140,81 @@ textarea {
 }
 
 /* ---------- Header ---------- */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-4);
+}
+
 .header__brand {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  color: var(--accent);
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.header__logo {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
 .header h1 {
-  font-size: 1.6rem;
+  font-size: 1.35rem;
+  line-height: 1.2;
   letter-spacing: -0.02em;
-  color: var(--text);
 }
 
 .header__tagline {
-  margin-top: var(--space-1);
-  font-size: 1.05rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
 }
 
-.header__privacy {
-  margin-top: var(--space-1);
-  font-size: 0.875rem;
-  color: var(--text-muted);
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.header__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+@media (min-width: 960px) {
+  .header__inner {
+    padding: var(--space-4) var(--space-6);
+  }
+}
+
+@media (max-width: 480px) {
+  .header__actions {
+    width: 100%;
+    justify-content: space-between;
+  }
 }
 
 /* ---------- Panel ---------- */
@@ -185,7 +267,7 @@ textarea {
 
 .button--primary {
   background: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
 }
 
 .button--primary:hover:not(:disabled) {
@@ -213,6 +295,19 @@ textarea {
 .button--ghost:hover {
   background: var(--bg);
   color: var(--text);
+}
+
+.icon-button.icon-button--round {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+}
+
+.icon-button.icon-button--round:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
 }
 
 .icon-button {
@@ -573,10 +668,10 @@ input[type='range'] {
   min-height: 280px;
   padding: var(--space-4);
   border-radius: var(--radius-sm);
-  background-color: #f0efeb;
+  background-color: var(--stage);
   /* Padrão xadrez discreto para mostrar os limites da imagem. */
-  background-image: linear-gradient(45deg, #e7e5df 25%, transparent 25%, transparent 75%, #e7e5df 75%),
-    linear-gradient(45deg, #e7e5df 25%, transparent 25%, transparent 75%, #e7e5df 75%);
+  background-image: linear-gradient(45deg, var(--stage-check) 25%, transparent 25%, transparent 75%, var(--stage-check) 75%),
+    linear-gradient(45deg, var(--stage-check) 25%, transparent 25%, transparent 75%, var(--stage-check) 75%);
   background-size: 16px 16px;
   background-position: 0 0, 8px 8px;
 }
@@ -662,6 +757,10 @@ input[type='range'] {
 .export__buttons .button {
   white-space: nowrap;
   padding-inline: var(--space-3);
+}
+
+.export__copy {
+  grid-column: 1 / -1;
 }
 
 .export__meta {
