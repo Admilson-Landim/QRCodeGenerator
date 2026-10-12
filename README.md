@@ -2,6 +2,10 @@
 
 Ferramenta web gratuita para criar, personalizar e descarregar QR Codes. Tudo é gerado no navegador; nenhum dado é enviado para servidores.
 
+**Experimenta online:** https://admilson-landim.github.io/QRCodeGenerator/
+
+O site é publicado automaticamente no GitHub Pages a cada push para `main` (ver `.github/workflows/deploy.yml`).
+
 ```
 frontend/   Aplicação React + Vite
 backend/    (vazio — reservado para uma versão futura)
